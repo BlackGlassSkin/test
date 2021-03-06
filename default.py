@@ -10,11 +10,11 @@ import xbmcplugin
 import xbmcgui
 import re
 import time
-import Translit as translit
+#import Translit as translit
 import XbmcHelpers
 
 common = XbmcHelpers
-translit = translit.Translit()
+#translit = translit.Translit()
 
 ID = "context.dandy.strm.generator"
 ADDON = xbmcaddon.Addon(ID)
@@ -25,8 +25,8 @@ PATTERNS_FOR_DELETE = ADDON.getSetting('patterns_delete') if ADDON.getSetting('p
 IS_EDIT = ADDON.getSetting('is_edit') if ADDON.getSetting('is_edit') else "false"
 CATEGORIES = ADDON.getSetting('categories') if ADDON.getSetting('categories') else None
 DIRECTORY = ADDON.getSetting('directory') if ADDON.getSetting('directory') else PATH
-TRANSLIT = ADDON.getSetting('translit') if ADDON.getSetting('translit') else "false"
-GENERATE_NFO = ADDON.getSetting('nfo') if ADDON.getSetting('nfo') else "false"
+#TRANSLIT = ADDON.getSetting('translit') if ADDON.getSetting('translit') else "false"
+#GENERATE_NFO = ADDON.getSetting('nfo') if ADDON.getSetting('nfo') else "false"
 SUPPORT_US = ADDON.getSetting('us') if ADDON.getSetting('us') else "false"
 PLAYABLE = ADDON.getSetting('playable') if ADDON.getSetting('playable') else "false"
 
@@ -107,8 +107,8 @@ def update_uri(content, uri):
 
 def generate_strm(category, media_title):
     media_title_orig = media_title
-    if TRANSLIT == "true":
-        media_title = translit.eng(media_title)
+    #if TRANSLIT == "true":
+        #media_title = translit.eng(media_title)
 
     path = xbmc.getInfoLabel('ListItem.FileNameAndPath')
 
@@ -123,7 +123,7 @@ def generate_strm(category, media_title):
         playable = '#'
     uri = playable + path
 
-    action = "Generated " 
+    action = xbmcaddon.Addon().getLocalizedString(32009)
     if ("(ts)" in category):
         namedir = dirlib + "/" + encode_(media_title)
         namefile = dirlib + "/" + encode_(media_title) + "/s1e1.strm"        
@@ -131,18 +131,24 @@ def generate_strm(category, media_title):
         if not os.path.exists(namedir):
             os.makedirs(namedir)
         else:
-            if (xbmcgui.Dialog().yesno(".strm", "Exist .strm file. Continue?") == False):
+            #if (xbmcgui.Dialog().yesno(".strm", "Exist .strm file. Continue?") == False):
+            if (xbmcgui.Dialog().yesno(encode_(media_title) + "", "Exist :[COLOR FF33ccff]" + encode_(media_title) + "[/COLOR].strm file. Continue?") == False):
                 return
             f = open(namefile, "r+")
-            content = urllib.parse.unquote_plus(f.read())
+            #content = urllib.parse.unquote_plus(f.read())
+            content = f.read()
             f.close()
             if (ID in content):
-                if (xbmcgui.Dialog().yesno(".strm", "Update existing .strm file?") == True):
+                #if (xbmcgui.Dialog().yesno(".strm", "Update existing .strm file?") == True):
+                if (xbmcgui.Dialog().yesno(encode_(media_title) + "", xbmcaddon.Addon().getLocalizedString(32010)) == True):
                     uri = update_uri(content, uri)
                     action = "Updated "                    
         try:
             f = open(namefile, "w+")
-            uri = "plugin://{0}?mode=run&uri={1}&title={2}".format(ID, urllib.parse.quote_plus(uri), encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
+            from urllib import unquote
+            #uri = "plugin://{0}?mode=run&uri={1}&title={2}".format(ID, urllib.parse.quote_plus(uri), encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
+            uri = "{1}".format(ID, uri, encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
+            url = unquote(url).decode('utf8')
             f.write(uri + "\n")
             f.close()
         except Exception as e:
@@ -153,56 +159,60 @@ def generate_strm(category, media_title):
     else:
         name = dirlib + "/" + encode_(media_title) + ".strm"    
         if os.path.exists(name): 
-            if (xbmcgui.Dialog().yesno(".strm", "Exist .strm file. Continue?") == False):
+            #if (xbmcgui.Dialog().yesno(".strm", "Exist .strm file. Continue?") == False):
+            if (xbmcgui.Dialog().yesno(encode_(media_title) + "", xbmcaddon.Addon().getLocalizedString(32011) + "[COLOR FF33ccff]\n" + encode_(media_title) + ".strm[/COLOR]\n" + xbmcaddon.Addon().getLocalizedString(32012)) == False):
                 return
             f = open(name, "r+")
-            content = urllib.parse.unquote_plus(f.read())
+            #content = urllib.parse.unquote_plus(f.read())
+            content = f.read()
             f.close()
             if (ID in content) and (path not in content):
-                if (xbmcgui.Dialog().yesno(".strm", "Update existing .strm file?") == True):
+                if (xbmcgui.Dialog().yesno("encode_(media_title)", "Update existing .strm file?") == True):
                     uri = update_uri(content, uri)
                     action = "Updated "
         try:
             f = open(name, "w+")
-            uri = "plugin://{0}?mode=run&uri={1}&title={2}".format(ID, urllib.parse.quote_plus(uri), encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
+            #uri = "plugin://{0}?mode=run&uri={1}&title={2}".format(ID, urllib.parse.quote_plus(uri), encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
+            uri = "{1}".format(ID, uri, encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip()))
             f.write(uri + "\n")
             f.close()
         except Exception as e:
             xbmc.log( '[%s]: WRITE EXCEPT [%s]' % (ID, e), 4 )
             show_message(e)
             return
-    xbmcgui.Dialog().ok(".strm", action + name)
+        xbmcgui.Dialog().ok(encode_(media_title) + "", action + " [COLOR FF33ccff]" + encode_(media_title) + " [/COLOR]\n" + 'Do lokalizacji....\n' + "[COLOR FF33ccff]" + dirlib + "[/COLOR]")
 
-def generate_nfo(category, media_title):
-    if "(ts)" in category:
-        return
-    media_title_orig = media_title
-    if TRANSLIT == "true":
-        media_title = translit.eng(media_title)
-
-    nfo = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
-    nfo += '<movie>\n'
-    nfo += "    <title>" + encode_(encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip())) + "</title>\n"
-    year = get_media_year(media_title_orig)
-    if year:
-        nfo += "    <year>" + year + "</year>\n"
-    nfo += "</movie>\n"
-
-    dirlib = os.path.join(DIRECTORY, category)
-    if not os.path.exists(dirlib):
-        os.makedirs(dirlib)
-    name = dirlib + "/" + encode_(media_title) + ".nfo"
-    if os.path.exists(name) and (xbmcgui.Dialog().yesno(".strm", "Exist .nfo file. Continue?") == False):
-        return
-    try:
-        f = open(name, "w+")
-        f.write(nfo + "\n")
-        f.close()
-    except Exception as e:
-        xbmc.log( '[%s]: WRITE EXCEPT [%s]' % (ID, e), 4 )
-        show_message(e)
-        return
-    xbmcgui.Dialog().ok(".nfo", "", "Generated " + name)
+#def generate_nfo(category, media_title):
+#    if "(ts)" in category:
+#        return
+#    media_title_orig = media_title
+#    if TRANSLIT == "true":
+#        media_title = translit.eng(media_title)
+#
+#    nfo = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
+#    nfo += '<movie>\n'
+#    nfo += "    <title>" + encode_(encode_(media_title_orig.split('[')[0].split('(')[0].split('/')[0].strip())) + "</title>\n"
+#    year = get_media_year(media_title_orig)
+#    if year:
+#        nfo += "    <year>" + year + "</year>\n"
+#    nfo += "</movie>\n"
+#
+#    dirlib = os.path.join(DIRECTORY, category)
+#    if not os.path.exists(dirlib):
+#        os.makedirs(dirlib)
+#    name = dirlib + "/" + encode_(media_title) + ".nfo"
+#    #if os.path.exists(name) and (xbmcgui.Dialog().yesno(".strm", "Exist .nfo file. Continue?") == False):
+#    if os.path.exists(name) and (xbmcgui.Dialog().yesno(encode_(media_title) + ".info", "", "Plik o nazwie: [COLOR red]\n" + encode_(media_title) + ".info[/COLOR]\n już istnieje czy chcesz go zastąpić?") == False):
+#        return
+#    try:
+#        f = open(name, "w+")
+#        f.write(nfo + "\n")
+#        f.close()
+#    except Exception as e:
+#        xbmc.log( '[%s]: WRITE EXCEPT [%s]' % (ID, e), 4 )
+#        show_message(e)
+#        return
+#    xbmcgui.Dialog().ok(".nfo", "", "Generated " + name)
     
 def generate():
     category = select_category()
@@ -212,8 +222,8 @@ def generate():
     if (media_title == None) or (media_title == ""):
         return
     generate_strm(category, media_title)
-    if GENERATE_NFO == "true":
-        generate_nfo(category, media_title)
+    #if GENERATE_NFO == "true":
+    #    generate_nfo(category, media_title)
 
 def get_addon_id(uri):
     return uri.replace('#', "").replace("plugin://", '').split('/')[0].replace('?', '').replace('/', '')
