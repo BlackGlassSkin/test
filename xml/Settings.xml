@@ -21,19 +21,10 @@
 			<top>0</top>
 			<bottom>0</bottom>
 			<include>OpenClose_Right</include>
-			<control type="label">
-				<left>0</left>
-				<right>0</right>
-				<top>420</top>
-				<height>400</height>
-				<label>$LOCALIZE[5]</label>
-				<align>center</align>
-				<font>font37</font>
-			</control>
 			<control type="panel" id="9000">
 				<left>0</left>
 				<width>100%</width>
-				<top>120</top>
+				<top>180</top>
 				<height>300</height>
 				<onup>noop</onup>
 				<ondown>Control.SetFocus(9001,$INFO[Container(9000).Position],absolute)</ondown>
@@ -50,21 +41,21 @@
 						<icon>icons/settings/addons.png</icon>
 					</item>
 					<item>
-						<label>$LOCALIZE[138]</label>
-						<onclick>ActivateWindow(systeminfo)</onclick>
-						<icon>icons/settings/sysinfo.png</icon>
+						<label>$LOCALIZE[14206]</label>
+						<onclick>ActivateWindow(InterfaceSettings)</onclick>
+						<icon>icons/settings/interface.png</icon>
 					</item>
 					<item>
-						<label>$LOCALIZE[31067]</label>
-						<onclick>ActivateWindow(eventlog)</onclick>
-						<icon>icons/settings/eventlog.png</icon>
+						<label>$LOCALIZE[13000]</label>
+						<onclick>ActivateWindow(SystemSettings)</onclick>
+						<icon>icons/settings/system.png</icon>
 					</item>
 				</content>
 			</control>
 			<control type="panel" id="9001">
 				<left>0</left>
 				<right>0</right>
-				<top>470</top>
+				<top>440</top>
 				<bottom>0</bottom>
 				<onup>Control.SetFocus(9000,$INFO[Container(9001).Position],absolute)</onup>
 				<ondown>noop</ondown>
@@ -97,31 +88,25 @@
 						<icon>icons/settings/games.png</icon>
 					</item>
 					<item>
-						<label>$LOCALIZE[14206]</label>
-						<onclick>ActivateWindow(InterfaceSettings)</onclick>
-						<icon>icons/settings/interface.png</icon>
-					</item>
-					<item>
 						<label>$LOCALIZE[13200]</label>
 						<onclick>ActivateWindow(Profiles)</onclick>
 						<icon>icons/settings/profiles.png</icon>
 					</item>
 					<item>
-						<label>$LOCALIZE[13000]</label>
-						<onclick>ActivateWindow(SystemSettings)</onclick>
-						<icon>icons/settings/system.png</icon>
+						<label>$LOCALIZE[31067]</label>
+						<onclick>ActivateWindow(eventlog)</onclick>
+						<icon>icons/settings/eventlog.png</icon>
 					</item>
 					<item>
-						<label>LibreELEC</label>
-						<onclick>RunAddon(service.libreelec.settings)</onclick>
-						<icon>icons/settings/libreelec.png</icon>
-						<visible>System.AddonIsEnabled(service.libreelec.settings)</visible>
+						<label>$LOCALIZE[138]</label>
+						<onclick>ActivateWindow(systeminfo)</onclick>
+						<icon>icons/settings/sysinfo.png</icon>
 					</item>
 				</content>
 			</control>
 		</control>
 		<include content="TopBar">
-			<param name="breadcrumbs_label" value="$LOCALIZE[13000]" />
+			<param name="breadcrumbs_label" value="Settings" />
 		</include>
 		<include>BottomBar</include>
 	</controls>

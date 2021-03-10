@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+	<onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=9000&amp;group=mainmenu|searchmenu|addonsmenu)</onunload>
 	<defaultcontrol>9000</defaultcontrol>
 	<backgroundcolor>background</backgroundcolor>
 	<onload condition="String.IsEmpty(Skin.String(background_overlay))">Skin.SetString(background_overlay,1)</onload>
@@ -17,11 +18,14 @@
 			<imagepath background="true" colordiffuse="bg_overlay">$INFO[Skin.String(HomeFanart.path)]settings$INFO[Skin.String(HomeFanart.ext)]</imagepath>
 			<visible>!Player.HasMedia + !String.IsEmpty(Skin.String(HomeFanart.path))</visible>
 		</control>
+		<!-- Custom - Options -->
 		<control type="group" id="10000">
 			<left>470</left>
 			<include>OpenClose_Right</include>
+			
+			<!-- General -->
 			<control type="grouplist" id="700">
-				<top>133</top>
+				<top>160</top>
 				<left>0</left>
 				<right>0</right>
 				<bottom>140</bottom>
@@ -73,9 +77,23 @@
 					<onclick>Skin.SelectBool(31164, 31165|show_profilename, 31166|show_profileavatar, 16018|show_none)</onclick>
 					<label2>$VAR[ProfileIdentificationLabel2Var]</label2>
 				</control>
+				<control type="radiobutton" id="708">
+					<label>Show Labels On Posters</label>
+					<include>DefaultSettingButton</include>
+					<onclick>Skin.ToggleSetting(ShowLabelsOnPosters)</onclick>
+					<selected>Skin.HasSetting(ShowLabelsOnPosters)</selected>
+				</control>
+				<control type="button" id="13063">
+					<include>DefaultSettingButton</include>
+					<label>AutoClose OSD Time</label>
+					<label2>$INFO[skin.string(SkinHelper.AutoCloseVideoOSD)] $LOCALIZE[31231]</label2>		
+					<onclick>Skin.SetNumeric(SkinHelper.AutoCloseVideoOSD)</onclick>
+				</control>
 			</control>
+			
+			<!-- Artwork -->
 			<control type="grouplist" id="600">
-				<top>133</top>
+				<top>160</top>
 				<left>0</left>
 				<right>0</right>
 				<bottom>140</bottom>
@@ -83,7 +101,7 @@
 				<onright>60</onright>
 				<onup>600</onup>
 				<ondown>600</ondown>
-				<visible>Container(9000).HasFocus(3)</visible>
+				<visible>Container(9000).HasFocus(2)</visible>
 				<control type="radiobutton" id="605">
 					<label>$LOCALIZE[31002]</label>
 					<include>DefaultSettingButton</include>
@@ -107,8 +125,7 @@
 					<label>$LOCALIZE[31131]</label>
 					<label2>$INFO[Skin.String(HomeFanart.name)]</label2>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(script.image.resource.select)">RunScript(script.image.resource.select,property=HomeFanart&amp;type=resource.images.skinbackgrounds)</onclick>
-					<onclick condition="System.HasAddon(script.image.resource.select) + !System.AddonIsEnabled(script.image.resource.select)">EnableAddon(script.image.resource.select)</onclick>
+					<onclick condition="System.HasAddon(script.image.resource.select)">RunScript(script.image.resource.select,property=HomeFanart&amp;type=resource.images.skinbackgrounds)</onclick>
 					<onclick condition="!System.HasAddon(script.image.resource.select)">InstallAddon(script.image.resource.select)</onclick>
 					<enable>!Skin.HasSetting(no_fanart)</enable>
 				</control>
@@ -116,8 +133,7 @@
 					<label>$LOCALIZE[31062]</label>
 					<label2>$INFO[Skin.String(WeatherFanart.name)]</label2>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(script.image.resource.select)">RunScript(script.image.resource.select,property=WeatherFanart&amp;type=resource.images.weatherfanart)</onclick>
-					<onclick condition="System.HasAddon(script.image.resource.select) + !System.AddonIsEnabled(script.image.resource.select)">EnableAddon(script.image.resource.select)</onclick>
+					<onclick condition="System.HasAddon(script.image.resource.select)">RunScript(script.image.resource.select,property=WeatherFanart&amp;type=resource.images.weatherfanart)</onclick>
 					<onclick condition="!System.HasAddon(script.image.resource.select)">InstallAddon(script.image.resource.select)</onclick>
 					<enable>!Skin.HasSetting(no_fanart)</enable>
 				</control>
@@ -125,149 +141,369 @@
 					<label>$LOCALIZE[31149]</label>
 					<label2>$INFO[Skin.String(MovieGenreFanart.Name)]</label2>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(script.image.resource.select)">RunScript(script.image.resource.select,property=MovieGenreFanart&amp;type=resource.images.moviegenrefanart)</onclick>
-					<onclick condition="System.HasAddon(script.image.resource.select) + !System.AddonIsEnabled(script.image.resource.select)">EnableAddon(script.image.resource.select)</onclick>
 					<onclick condition="!System.HasAddon(script.image.resource.select)">InstallAddon(script.image.resource.select)</onclick>
-				</control>
-				<control type="radiobutton" id="6067">
-					<label>$LOCALIZE[31168]</label>
-					<include>DefaultSettingButton</include>
-					<onclick>Skin.ToggleSetting(show_musicvideoposter)</onclick>
-					<selected>Skin.HasSetting(show_musicvideoposter)</selected>
+					<onclick condition="System.HasAddon(script.image.resource.select)">RunScript(script.image.resource.select,property=MovieGenreFanart&amp;type=resource.images.moviegenrefanart)</onclick>
 				</control>
 			</control>
-			<control type="grouplist" id="610">
-				<top>133</top>
+	
+			<!-- Menu Items -->
+			<control type="grouplist" id="800">
+				<top>160</top>
 				<left>0</left>
 				<right>0</right>
 				<bottom>140</bottom>
 				<onleft>9000</onleft>
 				<onright>60</onright>
-				<onup>610</onup>
+				<onup>700</onup>
+				<ondown>700</ondown>
+				<visible>Container(9000).HasFocus(3)</visible>
+				<control type="button" id="801">
+					<label>Main Menu Shortcuts Editor</label>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)</onclick>
+				</control>
+				<control type="button" id="802">
+					<label>Search Shortcuts Editor</label>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skinshortcuts,type=manage&amp;group=searchmenu)</onclick>
+				</control>
+				<control type="button" id="803">
+					<label>Addons Shortcuts Editor</label>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skinshortcuts,type=manage&amp;group=addonsmenu)</onclick>
+				</control>
+				<control type="label" id="80010">
+					<label>=======================</label>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="button" id="804">
+					<label>Main Menu Focused Color</label>
+					<label2>$VAR[MainMenuFocusedColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=main_menu_focused_color)</onclick>
+				</control>
+				<control type="button" id="805">
+					<label>Main Menu Unfocused Color</label>
+					<label2>$VAR[MainMenuUnfocusedColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=main_menu_unfocused_color)</onclick>
+				</control>
+				<control type="button" id="806">
+					<label>Main Menu Semi Focused Color</label>
+					<label2>$VAR[MainMenuSemiFocusedColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=main_menu_semi_focused_color)</onclick>
+				</control>
+				<control type="button" id="807">
+					<label>Sub Menu Focused Color</label>
+					<label2>$VAR[SubMenuFocusedColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=sub_menu_focused_color)</onclick>
+				</control>
+				<control type="button" id="808">
+					<label>Sub Menu Unfocused Color</label>
+					<label2>$VAR[SubMenuUnfocusedColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=sub_menu_unfocused_color)</onclick>
+				</control>
+				<control type="label" id="80011">
+					<label>=======================</label>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="button" id="8888">
+					<label>-- Reset All Menu Colors</label>
+					<include>DefaultSettingButton</include>
+					<onclick>Skin.Reset(main_menu_focused_color)</onclick>
+					<onclick>Skin.Reset(main_menu_unfocused_color)</onclick>
+					<onclick>Skin.Reset(main_menu_semifocused_color)</onclick>
+					<onclick>Skin.Reset(sub_menu_focused_color)</onclick>
+					<onclick>Skin.Reset(sub_menu_unfocused_color)</onclick>
+				</control>
+				<control type="button" id="88889">
+					<label>-- Reset All Skin Shortcuts Items</label>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skinshortcuts,type=resetall)</onclick>
+				</control>
+			</control>
+			
+			<!-- Colors -->
+			<control type="grouplist" id="900">
+				<top>160</top>
+				<left>0</left>
+				<right>0</right>
+				<bottom>140</bottom>
+				<onleft>9000</onleft>
+				<onright>60</onright>
+				<onup>700</onup>
+				<ondown>700</ondown>
+				<visible>Container(9000).HasFocus(4)</visible>
+				<control type="button" id="901">
+					<label>Accent Color</label>
+					<label2>$VAR[AccentColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=accent_color)</onclick>
+				</control>
+				<control type="button" id="902">
+					<label>Kodi Logo Color</label>
+					<label2>$VAR[KodiLogoColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=kodi_logo_color)</onclick>
+				</control>
+				<control type="button" id="903">
+					<label>Kodi Logo Text Color</label>
+					<label2>$VAR[KodiLogoTextColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=kodi_logo_text_color)</onclick>
+				</control>
+
+				<control type="button" id="904">
+					<label>-- Reset All</label>
+					<include>DefaultSettingButton</include>
+					<onclick>Skin.Reset(accent_color)</onclick>
+					<onclick>Skin.Reset(kodi_logo_color)</onclick>
+					<onclick>Skin.Reset(kodi_logo_text_color)</onclick>
+				</control>
+			</control>
+
+			<!-- Overlays / Backgrounds-->
+			<control type="grouplist" id="10000">
+				<top>168</top>
+				<left>0</left>
+				<right>0</right>
+				<bottom>142</bottom>
+				<onleft>9000</onleft>
+				<onright>60</onright>
+				<onup>400321</onup>
+				<ondown>60</ondown>
 				<pagecontrol>60</pagecontrol>
-				<ondown>610</ondown>
-				<visible>Container(9000).HasFocus(2)</visible>
-				<control type="radiobutton" id="621">
-					<label>$LOCALIZE[31008]</label>
+				<visible>Container(9000).HasFocus(5)</visible>
+				<control type="button" id="10002">
 					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(home_no_categories_widget)</selected>
-					<onclick>Skin.ToggleSetting(home_no_categories_widget)</onclick>
+					<label>Multi Image Background Folder</label>
+					<label2>$VAR[BackgroundsFolder]</label2>
+					<onclick>Skin.SetPath(Backgrounds)</onclick>
+                </control>
+				<control type="button" id="10001">
+					<label>Global Overlay Color</label>
+					<label2>$VAR[GlobalOverlayColor]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=global_overlay_color)</onclick>
 				</control>
-				<control type="radiobutton" id="611">
-					<label>$LOCALIZE[342]</label>
+				<control type="button" id="10003">
+					<label>Background Diffuse Color</label>
+					<label2>$VAR[BackgroundDiffuseColor]</label2>
 					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoMovieButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoMovieButton)</onclick>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=background_diffuse_color)</onclick>
 				</control>
-				<control type="button" id="6110">
-					<label>- $LOCALIZE[31157]</label>
+				<control type="label" id="1000010">
+					<label>=======================</label>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(plugin.library.node.editor)">ActivateWindow(programs,plugin://plugin.library.node.editor/?ltype=video,return)</onclick>
-					<onclick condition="System.HasAddon(plugin.library.node.editor) + !System.AddonIsEnabled(plugin.library.node.editor)">EnableAddon(plugin.library.node.editor)</onclick>
-					<onclick condition="!System.HasAddon(plugin.library.node.editor)">InstallAddon(plugin.library.node.editor)</onclick>
-					<enable>!Skin.HasSetting(HomeMenuNoMovieButton)</enable>
 				</control>
-				<control type="radiobutton" id="612">
-					<label>$LOCALIZE[20343]</label>
+				<control type="button" id="10004">
+					<label>Background Texture Overlay</label>
 					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoTVShowButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoTVShowButton)</onclick>
+					<label2>$VAR[BackgroundTextureOverlay]</label2>
+					<onclick>RunScript(script.skin.helper.service, action=OVERLAYTEXTURE,skinstring=background_texture_overlay)</onclick>
 				</control>
-				<control type="button" id="6120">
-					<label>- $LOCALIZE[31157]</label>
+				<control type="button" id="10005">
+					<label>Background Texture Overlay Color</label>
+					<label2>$VAR[BackgroundTextureOverlayColor]</label2>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(plugin.library.node.editor)">ActivateWindow(programs,plugin://plugin.library.node.editor/?ltype=video,return)</onclick>
-					<onclick condition="System.HasAddon(plugin.library.node.editor) + !System.AddonIsEnabled(plugin.library.node.editor)">EnableAddon(plugin.library.node.editor)</onclick>
-					<onclick condition="!System.HasAddon(plugin.library.node.editor)">InstallAddon(plugin.library.node.editor)</onclick>
-					<enable>!Skin.HasSetting(HomeMenuNoTVShowButton)</enable>
+					<onclick>RunScript(script.skin.helper.colorpicker,skinstring=background_texture_overlay_color)</onclick>
 				</control>
-				<control type="radiobutton" id="613">
-					<label>$LOCALIZE[2]</label>
+				<control type="label" id="1000011">
+					<label>=======================</label>
 					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoMusicButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoMusicButton)</onclick>
 				</control>
-				<control type="button" id="6130">
-					<label>- $LOCALIZE[31157]</label>
+				<control type="button" id="10006">
+					<label>-- Reset All</label>
 					<include>DefaultSettingButton</include>
-					<onclick condition="System.AddonIsEnabled(plugin.library.node.editor)">ActivateWindow(programs,plugin://plugin.library.node.editor/?ltype=music,return)</onclick>
-					<onclick condition="System.HasAddon(plugin.library.node.editor) + !System.AddonIsEnabled(plugin.library.node.editor)">EnableAddon(plugin.library.node.editor)</onclick>
-					<onclick condition="!System.HasAddon(plugin.library.node.editor)">InstallAddon(plugin.library.node.editor)</onclick>
-					<enable>!Skin.HasSetting(HomeMenuNoMusicButton)</enable>
-				</control>
-				<control type="radiobutton" id="6131">
-					<label>$LOCALIZE[20389]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoMusicVideoButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoMusicVideoButton)</onclick>
-				</control>
-				<control type="radiobutton" id="618">
-					<label>$LOCALIZE[19020]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoTVButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoTVButton)</onclick>
-				</control>
-				<control type="radiobutton" id="619">
-					<label>$LOCALIZE[19021]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoRadioButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoRadioButton)</onclick>
-				</control>
-				<control type="radiobutton" id="614">
-					<label>$LOCALIZE[24001]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoProgramsButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoProgramsButton)</onclick>
-				</control>
-				<control type="radiobutton" id="615">
-					<label>$LOCALIZE[1]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoPicturesButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoPicturesButton)</onclick>
-				</control>
-				<control type="radiobutton" id="616">
-					<label>$LOCALIZE[3]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoVideosButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoVideosButton)</onclick>
-				</control>
-				<control type="radiobutton" id="620">
-					<label>$LOCALIZE[15016]</label>
-					<visible>System.GetBool(gamesgeneral.enable)</visible>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoGamesButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoGamesButton)</onclick>
-				</control>
-				<control type="radiobutton" id="6160">
-					<label>$LOCALIZE[10134]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoFavButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoFavButton)</onclick>
-				</control>
-				<control type="radiobutton" id="617">
-					<label>$LOCALIZE[8]</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(HomeMenuNoWeatherButton)</selected>
-					<onclick>Skin.ToggleSetting(HomeMenuNoWeatherButton)</onclick>
+					<onclick>Skin.Reset(global_overlay_color)</onclick>
+					<onclick>Skin.Reset(Backgrounds)</onclick>
+					<onclick>Skin.Reset(background_diffuse_color)</onclick>
+					<onclick>Skin.Reset(background_texture_overlay)</onclick>
+					<onclick>Skin.Reset(background_texture_overlay_color)</onclick>
 				</control>
 			</control>
-			<control type="image">
-				<description>Dialog Header image</description>
+
+			<!-- Forced Views -->
+			<control type="grouplist" id="6000">
+				<top>160</top>
 				<left>0</left>
-				<top>130</top>
 				<right>0</right>
-				<height>3</height>
-				<texture colordiffuse="button_focus" border="2">dialogs/separator-grey.png</texture>
+				<bottom>140</bottom>
+				<onleft>9000</onleft>
+				<onright>60</onright>
+				<onup>700</onup>
+				<ondown>700</ondown>
+				<visible>Container(9000).HasFocus(6)</visible>
+				<control type="radiobutton" id="6009">
+					<label>Enable forced views</label>
+					<include>DefaultSettingButton</include>
+					<onclick>Skin.ToggleSetting(SkinHelper.ForcedViews.Enabled)</onclick>
+					<selected>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</selected>
+				</control>
+				<control type="button" id="6010">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=movies)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for movies: $INFO[Skin.String(SkinHelper.ForcedViews.movies)]</label>
+				</control>
+				<control type="button" id="6011">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=tvshows)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for tv shows:  $INFO[Skin.String(SkinHelper.ForcedViews.tvshows)]</label>
+				</control>
+				<control type="button" id="6012">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=seasons)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for seasons:  $INFO[Skin.String(SkinHelper.ForcedViews.seasons)]</label>
+				</control>
+				<control type="button" id="6013">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=episodes)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for episodes: $INFO[Skin.String(SkinHelper.ForcedViews.episodes)]</label>
+				</control>
+				<control type="button" id="6014">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=sets)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for movie sets: $INFO[Skin.String(SkinHelper.ForcedViews.sets)]</label>
+				</control>
+				<control type="button" id="6015">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=setmovies)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for movies inside set: $INFO[Skin.String(SkinHelper.ForcedViews.setmovies)]</label>
+				</control>
+				<control type="button" id="6016">
+					<include>DefaultSettingButton</include>
+					<onclick>RunScript(script.skin.helper.service,action=setforcedview,contenttype=files)</onclick>
+					<visible>Skin.HasSetting(SkinHelper.ForcedViews.Enabled)</visible>
+					<label>Forced view for files: $INFO[Skin.String(SkinHelper.ForcedViews.files)]</label>
+				</control>
 			</control>
-			<control type="image">
-				<description>Dialog Header image</description>
+			
+			<!-- Required Add-ons -->
+			<control type="grouplist" id="20000">
+				<top>160</top>
 				<left>0</left>
-				<bottom>134</bottom>
 				<right>0</right>
-				<height>3</height>
-				<texture colordiffuse="button_focus" border="2">dialogs/separator-grey.png</texture>
+				<bottom>140</bottom>
+				<onleft>9000</onleft>
+				<onright>60</onright>
+				<onup>700</onup>
+				<ondown>700</ondown>
+				<visible>Container(9000).HasFocus(7)</visible>
+				<control type="radiobutton" id="20002">
+					<label>Skin Shortcuts $INFO[System.AddonVersion(script.skinshortcuts),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.skinshortcuts)">InstallAddon(script.skinshortcuts)</onclick>
+					<onclick condition="System.HasAddon(script.skinshortcuts)">Addon.OpenSettings(script.skinshortcuts)</onclick>
+					<selected>System.HasAddon(script.skinshortcuts)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20003">
+					<label>Skin Helper Service $INFO[System.AddonVersion(script.skin.helper.service),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.skin.helper.service)">InstallAddon(script.skin.helper.service)</onclick>
+					<onclick condition="System.HasAddon(script.skin.helper.service)">Addon.OpenSettings(script.skin.helper.service)</onclick>
+					<selected>System.HasAddon(script.skin.helper.service)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20004">
+					<label>Skin Helper Service ColorPicker $INFO[System.AddonVersion(script.skin.helper.colorpicker),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
+					<onclick condition="System.HasAddon(script.skin.helper.colorpicker)">Addon.OpenSettings(script.skin.helper.colorpicker)</onclick>
+					<selected>System.HasAddon(script.skin.helper.colorpicker)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20005">
+					<label>The MovieDB Helper $INFO[System.AddonVersion(plugin.video.themoviedb.helper),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(plugin.video.themoviedb.helper)">InstallAddon(plugin.video.themoviedb.helper)</onclick>
+					<onclick condition="System.HasAddon(plugin.video.themoviedb.helper)">Addon.OpenSettings(plugin.video.themoviedb.helper)</onclick>
+					<selected>System.HasAddon(plugin.video.themoviedb.helper)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20006">
+					<label>YouTube $INFO[System.AddonVersion(plugin.video.youtube),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(plugin.video.youtube)">InstallAddon(plugin.video.youtube)</onclick>
+					<onclick condition="System.HasAddon(plugin.video.youtube)">Addon.OpenSettings(plugin.video.youtube)</onclick>
+					<selected>System.HasAddon(plugin.video.youtube)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20007">
+					<label>ExtendedInfo Script $INFO[System.AddonVersion(script.extendedinfo),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.extendedinfo)">InstallAddon(script.extendedinfo)</onclick>
+					<onclick condition="System.HasAddon(script.extendedinfo)">Addon.OpenSettings(script.extendedinfo)</onclick>
+					<selected>System.HasAddon(script.extendedinfo)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20008">
+					<label>Image Resource Select Addon $INFO[System.AddonVersion(script.image.resource.select),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.image.resource.select)">InstallAddon(script.image.resource.select)</onclick>
+					<onclick condition="System.HasAddon(script.image.resource.select)">Addon.OpenSettings(script.image.resource.select)</onclick>
+					<selected>System.HasAddon(script.image.resource.select)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20009">
+					<label>Artwork Downloader $INFO[System.AddonVersion(script.artwork.downloader),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(script.artwork.downloader)">InstallAddon(script.artwork.downloader)</onclick>
+					<onclick condition="System.HasAddon(script.artwork.downloader)">Addon.OpenSettings(script.artwork.downloader)</onclick>
+					<selected>System.HasAddon(script.artwork.downloader)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
+				<control type="radiobutton" id="20010">
+					<label>AutoCompletion for virtual keyboard $INFO[System.AddonVersion(plugin.program.autocompletion),(,)]</label>
+					<textureradioonfocus>buttons/radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>buttons/radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>buttons/radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>buttons/radio-button-off.png</textureradiooffnofocus>
+					<onclick condition="!System.HasAddon(plugin.program.autocompletion)">InstallAddon(plugin.program.autocompletion)</onclick>
+					<onclick condition="System.HasAddon(plugin.program.autocompletion)">Addon.OpenSettings(plugin.program.autocompletion)</onclick>
+					<selected>System.HasAddon(plugin.program.autocompletion)</selected>
+					<include>DefaultSettingButton</include>
+				</control>
 			</control>
 		</control>
+
+
+		
+		
+		<!-- Left Menu -->
 		<control type="group">
 			<depth>DepthContentPanel</depth>
 			<left>0</left>
@@ -275,61 +511,80 @@
 			<include content="ContentPanel">
 				<param name="width" value="530" />
 			</include>
+			
 			<control type="list" id="9000">
 				<description>button area</description>
 				<left>0</left>
-				<top>130</top>
+				<top>160</top>
 				<width>470</width>
 				<height>700</height>
 				<onleft>10000</onleft>
 				<onright>10000</onright>
 				<onup>9000</onup>
 				<ondown>9000</ondown>
-				<itemlayout height="85" width="470">
+				<itemlayout height="90" width="470">
 					<control type="label">
 						<textoffsetx>30</textoffsetx>
 						<width>470</width>
-						<height>85</height>
+						<height>90</height>
 						<label>$INFO[ListItem.Label]</label>
 						<font>font37</font>
 						<aligny>center</aligny>
 					</control>
 				</itemlayout>
-				<focusedlayout height="85" width="470">
+				<focusedlayout height="90" width="470">
 					<control type="image">
 						<width>470</width>
-						<height>85</height>
-						<texture colordiffuse="button_focus">lists/focus.png</texture>
+						<height>90</height>
+						<texture colordiffuse="$VAR[AccentColor]">lists/focus.png</texture>
 						<animation effect="fade" start="100" end="50" time="40" condition="!Control.HasFocus(9000)">Conditional</animation>
 					</control>
 					<control type="label">
 						<textoffsetx>30</textoffsetx>
 						<width>470</width>
-						<height>85</height>
+						<height>90</height>
 						<font>font37</font>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
 					</control>
 				</focusedlayout>
+
 				<content>
 					<item id="1">
 						<label>$LOCALIZE[128]</label>
 						<onclick>noop</onclick>
 					</item>
 					<item id="2">
-						<label>$LOCALIZE[31061]</label>
+						<label>$LOCALIZE[31159]</label>
 						<onclick>noop</onclick>
 					</item>
 					<item id="3">
-						<label>$LOCALIZE[31159]</label>
+						<label>Menus</label>
+						<onclick>noop</onclick>
+					</item>
+					<item id="4">
+						<label>Skin Colors</label>
+						<onclick>noop</onclick>
+					</item>
+					<item id="5">
+						<label>Overlays</label>
+						<onclick>noop</onclick>
+					</item>
+					<item id="6">
+						<label>Forced Views</label>
+						<onclick>noop</onclick>
+					</item>
+					<item id="7">
+						<label>Extra Addons</label>
 						<onclick>noop</onclick>
 					</item>
 				</content>
 			</control>
 		</control>
+
 		<control type="group">
 			<right>0</right>
-			<top>133</top>
+			<top>163</top>
 			<bottom>137</bottom>
 			<width>60</width>
 			<control type="scrollbar" id="60">
@@ -340,8 +595,8 @@
 				<orientation>vertical</orientation>
 				<texturesliderbackground />
 				<animation effect="slide" end="6,0" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(60)">conditional</animation>
-				<onleft>610</onleft>
-				<onright>610</onright>
+				<onleft>1000</onleft>
+				<onright>1000</onright>
 				<animation effect="fade" start="0" end="100" time="200" delay="300">Visible</animation>
 				<animation effect="fade" start="100" end="0" time="200">Hidden</animation>
 				<animation effect="fade" start="0" end="100" delay="300" time="320">WindowOpen</animation>
@@ -350,9 +605,11 @@
 				<visible>Control.IsVisible(610)</visible>
 			</control>
 		</control>
+
 		<include content="TopBar">
-			<param name="breadcrumbs_label" value="$LOCALIZE[5] / $LOCALIZE[20077]" />
+			<param name="breadcrumbs_label" value="$LOCALIZE[20077]" />
 		</include>
+
 		<include>BottomBar</include>
 		<control type="textbox" id="6">
 			<include>OpenClose_Right</include>
@@ -363,7 +620,7 @@
 			<height>100</height>
 			<font>font12</font>
 			<align>justify</align>
-			<textcolor>button_focus</textcolor>
+			<textcolor>$VAR[AccentColor]</textcolor>
 			<label>$VAR[SkinSettingsHelpTextVar]</label>
 			<autoscroll time="3000" delay="5000" repeat="5000">true</autoscroll>
 		</control>

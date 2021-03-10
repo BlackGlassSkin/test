@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+	<onload condition="Control.IsVisible(9961)">Control.SetFocus(9961)</onload>
+	<onload condition="!Control.IsVisible(9961)">Control.SetFocus(996)</onload>
 	<defaultcontrol>996</defaultcontrol>
 	<include>Animation_DialogPopupOpenClose</include>
 	<coordinates>
@@ -38,11 +40,40 @@
 			</control>
 			<control type="grouplist" id="996">
 				<description>grouplist for context buttons</description>
+				<defaultcontrol>9961</defaultcontrol>
 				<left>0</left>
 				<top>0</top>
 				<width>450</width>
 				<height max="780">auto</height>
 				<usecontrolcoords>true</usecontrolcoords>
+				<control type="button" id="9961">
+					<description>Trailer</description>
+					<left>0</left>
+					<top>0</top>
+					<label>Trailer</label>
+					<onclick>Action(close)</onclick>
+					<onclick>PlayMedia($INFO[ListItem.Trailer])</onclick>
+					<width>450</width>
+					<height>65</height>
+					<align>center</align>
+					<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
+					<texturefocus colordiffuse="$VAR[AccentColor]">lists/focus.png</texturefocus>
+					<texturenofocus />
+				</control>
+				<control type="button" id="9962">
+					<description>Youtube Trailers</description>
+					<left>0</left>
+					<top>0</top>
+					<label>Youtube Trailers</label>
+					<onclick>Action(close)</onclick>
+					<onclick condition="System.HasAddon(plugin.video.youtube)">RunScript(script.skin.helper.service,action=searchyoutube,title=$INFO[ListItem.Title] Trailer,header=Search YouTube Trailers)</onclick>
+					<width>450</width>
+					<height>65</height>
+					<align>center</align>
+					<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
+					<texturefocus colordiffuse="$VAR[AccentColor]">lists/focus.png</texturefocus>
+					<texturenofocus />
+				</control>
 			</control>
 			<include content="UpDownArrows">
 				<param name="container_id" value="996" />
@@ -58,7 +89,7 @@
 			<width>450</width>
 			<height>65</height>
 			<align>center</align>
-			<texturefocus colordiffuse="button_focus">lists/focus.png</texturefocus>
+			<texturefocus colordiffuse="$VAR[AccentColor]">lists/focus.png</texturefocus>
 			<texturenofocus />
 		</control>
 	</controls>

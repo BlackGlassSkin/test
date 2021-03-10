@@ -66,9 +66,9 @@
 					</control>
 					<control type="textbox">
 						<left>135</left>
-						<top>50</top>
+						<top>52</top>
 						<right>20</right>
-						<height>67</height>
+						<height>65</height>
 						<font>font12</font>
 						<textcolor>grey</textcolor>
 						<label>$INFO[ListItem.Label2]</label>
@@ -80,7 +80,7 @@
 						<top>0</top>
 						<right>0</right>
 						<bottom>0</bottom>
-						<texture colordiffuse="button_focus">lists/focus.png</texture>
+						<texture colordiffuse="$VAR[AccentColor]">lists/focus.png</texture>
 						<visible>Control.HasFocus(6)</visible>
 					</control>
 					<control type="image">
@@ -103,9 +103,9 @@
 					</control>
 					<control type="textbox">
 						<left>135</left>
-						<top>50</top>
+						<top>52</top>
 						<right>20</right>
-						<height>67</height>
+						<height>65</height>
 						<font>font12</font>
 						<label>$INFO[ListItem.Label2]</label>
 					</control>
@@ -139,10 +139,6 @@
 				<onright>3</onright>
 				<include content="DefaultDialogButton">
 					<param name="id" value="5" />
-					<param name="label" value="" />
-				</include>
-				<include content="DefaultDialogButton">
-					<param name="id" value="8" />
 					<param name="label" value="" />
 				</include>
 				<include content="DefaultDialogButton">
@@ -239,7 +235,7 @@
 						<control type="image">
 							<width>444</width>
 							<height>250</height>
-							<texture border="8" colordiffuse="button_focus">buttons/thumbnail_focused.png</texture>
+							<texture border="8" colordiffuse="$VAR[AccentColor]">buttons/thumbnail_focused.png</texture>
 							<visible>Control.HasFocus(11)</visible>
 						</control>
 					</control>
@@ -345,7 +341,7 @@
 						<control type="image">
 							<width>444</width>
 							<height>250</height>
-							<texture border="8" colordiffuse="button_focus">buttons/thumbnail_focused.png</texture>
+							<texture border="8" colordiffuse="$VAR[AccentColor]">buttons/thumbnail_focused.png</texture>
 							<visible>Control.HasFocus(11)</visible>
 						</control>
 					</control>

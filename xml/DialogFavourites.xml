@@ -6,12 +6,12 @@
 		<control type="group">
 			<centertop>50%</centertop>
 			<centerleft>50%</centerleft>
-			<width>1540</width>
-			<height>858</height>
+			<height>100%</height>
+			<width>100%</width>
 			<include content="DialogBackgroundCommons">
-				<param name="width" value="1540" />
-				<param name="height" value="858" />
-				<param name="header_label" value="$LOCALIZE[1036]" />
+				<param name="width" value="100%" />
+				<param name="height" value="100%" />
+				<param name="header_label" value="$LOCALIZE[1036] ($INFO[Window(Home).Property(SkinHelper.TotalFavourites)])" />
 				<param name="header_id" value="2" />
 			</include>
 			<include content="UpDownArrows">
@@ -32,7 +32,8 @@
 			<control type="panel" id="450">
 				<left>10</left>
 				<top>70</top>
-				<width>1600</width>
+				<height>100%</height>
+				<width>100%</width>
 				<bottom>0</bottom>
 				<onleft>60</onleft>
 				<onright>60</onright>
@@ -68,7 +69,7 @@
 				<aligny>center</aligny>
 				<align>center</align>
 				<label>$LOCALIZE[31025]</label>
-				<font>font45_title</font>
+				<font>font_favourites</font>
 				<visible>Integer.IsEqual(Container(450).NumItems,0)</visible>
 			</control>
 		</control>
